@@ -34,19 +34,19 @@
 
 					<ul>
 
-						<li><a href="index.html">Home</a></li>
+						<li><a href="../../index.html">Home</a></li>
 
 						<li><a href="#">Colaboradores</a>
 							<ul>
-								<li><a href="voluntarios.html">Voluntários</a></li>
-								<li><a href="doacao.html">Doação</a></li>
-								<li><a href="cadastrarescola.html">Cadastrar minha
+								<li><a href="../../voluntarios.html">Voluntários</a></li>
+								<li><a href="../../doacao.html">Doação</a></li>
+								<li><a href="../../cadastrarescola.html">Cadastrar minha
 										escola</a></li>
 
 							</ul></li>
-						<li><a href="sobre.html">O projeto</a></li>
-						<li><a href="contato.html">Contato</a></li>
-						<li><a href="./login.html" id="botao-login"
+						<li><a href="../../sobre.html">O projeto</a></li>
+						<li><a href="../../contato.html">Contato</a></li>
+						<li><a href="../../login.html" id="botao-login"
 							class="btn btn-success sistema">Login</a></li>
 
 					</ul>

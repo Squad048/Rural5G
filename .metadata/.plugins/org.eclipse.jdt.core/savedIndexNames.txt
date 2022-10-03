@@ -18,7 +18,6 @@ INDEX VERSION 1.131+C:\Users\bossg\OneDrive\Documentos\Rural5G\.metadata\.plugin
 3742656733.index
 1049772935.index
 1304920311.index
-1124315670.index
 572649834.index
 480371004.index
 1540219566.index
