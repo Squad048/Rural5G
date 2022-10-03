@@ -51,7 +51,7 @@ public class ControllerDoacao extends HttpServlet {
 		if (action.equalsIgnoreCase("/tabelas/doacao/create")) {
 			createDoacao(request, response);
 		}else if (action.equalsIgnoreCase("/cadastroDoacao")) {
-			cadastroDoacao(request, response);
+			createDoacao(request, response);
 		} else if (action.equalsIgnoreCase("/tabelas/doacao/update")) {
 			updateAluno(request, response);
 		} else if (action.equalsIgnoreCase("/tabelas/doacao/delete")) {

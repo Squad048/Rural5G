@@ -14,7 +14,7 @@ import com.rural5g.model.Doacao;
 /**
  * Servlet implementation class ControllerDoacao
  */
-@WebServlet(urlPatterns = { "/ControllerDoacao", "/cadastroDoacao","/tabelas/doacao/create", "/tabelas/doacao/update",
+@WebServlet(urlPatterns = { "/ControllerDoacao", "/tabelas/doacao/create", "/tabelas/doacao/update",
 		"/tabelas/doacao/delete" })
 public class ControllerDoacao extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,8 +50,6 @@ public class ControllerDoacao extends HttpServlet {
 
 		if (action.equalsIgnoreCase("/tabelas/doacao/create")) {
 			createDoacao(request, response);
-		}else if (action.equalsIgnoreCase("/cadastroDoacao")) {
-			cadastroDoacao(request, response);
 		} else if (action.equalsIgnoreCase("/tabelas/doacao/update")) {
 			updateAluno(request, response);
 		} else if (action.equalsIgnoreCase("/tabelas/doacao/delete")) {
@@ -70,18 +68,6 @@ public class ControllerDoacao extends HttpServlet {
 		DoacaoDAO.insert(doacao);
 
 		response.sendRedirect("Doacao.jsp");
-
-	}
-	protected void cadastroDoacao(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doacao.setNome(request.getParameter("nome"));
-		doacao.setId_escola(Integer.parseInt(request.getParameter("id_escola")));
-		doacao.setId_doador(Integer.parseInt(request.getParameter("id_doador")));
-		doacao.setEntidade_doador(request.getParameter("entidade_doador"));
-
-		DoacaoDAO.insert(doacao);
-
-		response.sendRedirect("index.html");
 
 	}
 

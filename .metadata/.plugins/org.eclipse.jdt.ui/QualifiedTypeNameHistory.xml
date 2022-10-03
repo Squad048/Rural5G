@@ -2,6 +2,11 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="com.rural5g.controllers.ControllerAluno"/>
     <fullyQualifiedTypeName name="com.rural5g.model.Aluno"/>
-    <fullyQualifiedTypeName name="java.sql.Statement"/>
     <fullyQualifiedTypeName name="com.rural5g.dao.AlunoDAO"/>
+    <fullyQualifiedTypeName name="com.rural5g.controllers.ControllerDoacao"/>
+    <fullyQualifiedTypeName name="com.rural5g.dao.DoacaoDAO"/>
+    <fullyQualifiedTypeName name="com.rural5g.dao.Doador_pjDAO"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="org.eclipse.jdt.internal.compiler.ast.ReturnStatement"/>
+    <fullyQualifiedTypeName name="java.sql.Statement"/>
 </qualifiedTypeNameHistroy>
