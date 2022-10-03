@@ -1,0 +1,170 @@
+package com.rural5g.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rural5g.factory.ConnectionFactory;
+import com.rural5g.model.Professor;
+
+public class ProfessorDAO {
+	public static void insert(Professor professor) {
+
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String insert = "INSERT INTO professor(nome,email,celular,cpf,estado,cidade,bairo,materia) VALUES (?,?,?,?,?,?,?,?);";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(insert);
+
+			pstm.setString(1, professor.getNome());
+			pstm.setString(2, professor.getEmail());
+			pstm.setInt(3, professor.getCelular());
+			pstm.setString(4, professor.getCpf());
+			pstm.setString(5, professor.getEstado());
+			pstm.setString(6, professor.getCidade());
+			pstm.setString(7, professor.getBairro());
+			pstm.setString(8, professor.getMateria());
+
+			pstm.executeUpdate();
+
+			ResultSet rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				final int lastId = rs.getInt(1);
+				professor.setId_professor(lastId);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public static void update(Professor professor) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String update = "UPDATE professor SET nome = ?, email = ?, celular = ?, cpf = ?, estado = ?, cidade = ?, bairro = ?, materia = ? WHERE id_professor = ? ";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(update);
+
+			pstm.setString(1, professor.getNome());
+			pstm.setString(2, professor.getEmail());
+			pstm.setInt(3, professor.getCelular());
+			pstm.setString(4, professor.getCpf());
+			pstm.setString(5, professor.getEstado());
+			pstm.setString(6, professor.getCidade());
+			pstm.setString(7, professor.getBairro());
+			pstm.setString(8, professor.getMateria());
+			pstm.setInt(9, professor.getId_professor());
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public static void deleteById(int id) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String delete = "DELETE FROM professor WHERE id_professor = ?";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+	}
+
+	public static List<Professor> getAlunos() {
+		List<Professor> professores = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String select = "SELECT * FROM professor";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(select);
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				Professor professor = new Professor();
+
+				professor.setId_professor(rs.getInt("id_professor"));
+				professor.setNome(rs.getString("nome"));
+				professor.setEmail(rs.getString("email"));
+				professor.setCelular(rs.getInt("celular"));
+				professor.setCpf(rs.getString("cpf"));
+				professor.setEstado(rs.getString("estado"));
+				professor.setCidade(rs.getString("cidade"));
+				professor.setBairro(rs.getString("bairro"));
+				professor.setMateria(rs.getString("materia"));
+
+				professores.add(professor);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+		return professores;
+	}
+}

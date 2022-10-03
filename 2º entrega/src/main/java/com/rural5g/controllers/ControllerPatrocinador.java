@@ -1,0 +1,116 @@
+package com.rural5g.controllers;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.rural5g.dao.PatrocinadorDAO;
+import com.rural5g.model.Patrocinador;
+
+/**
+ * Servlet implementation class ControllerAluno
+ */
+@WebServlet(urlPatterns = { "/ControllerPatrocinador", "/cadastroPatrocinador", "/tabelas/patrocinador/create", "/tabelas/patrocinador/update",
+		"/tabelas/patrocinador/delete" })
+public class ControllerPatrocinador extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	Patrocinador patrocinador = new Patrocinador();
+
+	public ControllerPatrocinador() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String action = request.getServletPath();
+		if (action.equalsIgnoreCase("/tabelas/patrocinador/create")) {
+			createPatrocinador(request, response);
+		}else if (action.equalsIgnoreCase("/cadastroPatrocinador")) {
+			cadastroPatrocinador(request, response);
+		} else if (action.equalsIgnoreCase("/tabelas/patrocinador/update")) {
+			updatePatrocinador(request, response);
+		} else if (action.equalsIgnoreCase("/tabelas/patrocinador/delete")) {
+			deletePatrocinador(request, response);
+		}
+//		doGet(request, response);
+	}
+
+	protected void createPatrocinador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		patrocinador.setNome(request.getParameter("nome"));
+		patrocinador.setEmail(request.getParameter("email"));
+		patrocinador.setCpf(request.getParameter("cpf"));
+		patrocinador.setEstado(request.getParameter("estado"));
+		patrocinador.setCidade(request.getParameter("cidade"));
+		patrocinador.setBairro(request.getParameter("bairro"));
+		patrocinador.setCelular(request.getParameter("celular"));
+
+		PatrocinadorDAO.insert(patrocinador);
+
+		response.sendRedirect("Patrocinador.jsp");
+
+	}
+	protected void cadastroPatrocinador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		patrocinador.setNome(request.getParameter("nome"));
+		patrocinador.setEmail(request.getParameter("email"));
+		patrocinador.setCpf(request.getParameter("cpf"));
+		patrocinador.setEstado(request.getParameter("estado"));
+		patrocinador.setCidade(request.getParameter("cidade"));
+		patrocinador.setBairro(request.getParameter("bairro"));
+		patrocinador.setCelular(request.getParameter("celular"));
+
+		PatrocinadorDAO.insert(patrocinador);
+
+		response.sendRedirect("index.html");
+
+	}
+
+	protected void updatePatrocinador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		patrocinador.setId_patrocinador(Integer.parseInt(request.getParameter("id_patrocinador")));
+		patrocinador.setNome(request.getParameter("nome"));
+		patrocinador.setEmail(request.getParameter("email"));
+		patrocinador.setCpf(request.getParameter("cpf"));
+		patrocinador.setEstado(request.getParameter("estado"));
+		patrocinador.setCidade(request.getParameter("cidade"));
+		patrocinador.setBairro(request.getParameter("bairro"));
+		patrocinador.setCelular(request.getParameter("celular"));
+
+		PatrocinadorDAO.update(patrocinador);
+
+		response.sendRedirect("Patrocinador.jsp");
+
+	}
+
+	protected void deletePatrocinador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		PatrocinadorDAO.deleteById(Integer.parseInt(request.getParameter("id_patrocinador")));
+
+		response.sendRedirect("Patrocinador.jsp");
+
+	}
+}

@@ -1,0 +1,101 @@
+package com.rural5g.controllers;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.rural5g.dao.ProfessorDAO;
+import com.rural5g.model.Professor;
+
+/**
+ * Servlet implementation class ControllerAluno
+ */
+@WebServlet(urlPatterns = { "/ControllerProfessor", "/tabelas/professor/create", "/tabelas/professor/update", "/tabelas/professor/delete" })
+public class ControllerProfessor extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	Professor professor = new Professor();
+
+	public ControllerProfessor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String action = request.getServletPath();
+		if (action.equalsIgnoreCase("/tabelas/professor/create")) {
+			createProfessor(request, response);
+		}else if (action.equalsIgnoreCase("/tabelas/professor/update")) {
+			updateProfessor(request, response);
+		}else if (action.equalsIgnoreCase("/tabelas/professor/delete")) {
+			deleteProfessor(request, response);
+		}
+//		doGet(request, response);
+	}
+
+
+	protected void createProfessor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		professor.setNome(request.getParameter("nome"));
+		professor.setEmail(request.getParameter("email"));
+		professor.setCpf(request.getParameter("cpf"));
+		professor.setEstado(request.getParameter("estado"));
+		professor.setCidade(request.getParameter("cidade"));
+		professor.setBairro(request.getParameter("bairro"));
+		professor.setCelular(request.getParameter("celular"));
+		professor.setMateria(request.getParameter("materia"));
+
+		ProfessorDAO.insert(professor);
+
+		response.sendRedirect("Professor.jsp");
+
+	}
+	
+	protected void updateAluno(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		professor.setId_professor(Integer.parseInt(request.getParameter("id_professor")));
+		professor.setNome(request.getParameter("nome"));
+		professor.setEmail(request.getParameter("email"));
+		professor.setCpf(request.getParameter("cpf"));
+		professor.setEstado(request.getParameter("estado"));
+		professor.setCidade(request.getParameter("cidade"));
+		professor.setBairro(request.getParameter("bairro"));
+		professor.setCelular(request.getParameter("celular"));
+		professor.setMateria(request.getParameter("materia"));
+
+		ProfessorDAO.update(professor);
+
+		response.sendRedirect("Professor.jsp");
+
+	}
+	
+	protected void deleteAluno(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		ProfessorDAO.deleteById(Integer.parseInt(request.getParameter("id_professor")));
+
+		response.sendRedirect("Professor.jsp");
+
+	}
+}

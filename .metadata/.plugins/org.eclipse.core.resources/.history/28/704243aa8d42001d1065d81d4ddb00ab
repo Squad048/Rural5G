@@ -1,0 +1,168 @@
+package com.rural5g.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rural5g.factory.ConnectionFactory;
+import com.rural5g.model.Aluno;
+
+public class AlunoDAO {
+
+	public static void insert(Aluno aluno) {
+
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String insert = "INSERT INTO aluno(nome,email,celular,cpf,estado,cidade,bairo) VALUES (?,?,?,?,?,?,?);";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(insert);
+
+			pstm.setString(1, aluno.getNome());
+			pstm.setString(2, aluno.getEmail());
+			pstm.setString(3, aluno.getCelular());
+			pstm.setString(4, aluno.getCpf());
+			pstm.setString(5, aluno.getEstado());
+			pstm.setString(6, aluno.getCidade());
+			pstm.setString(7, aluno.getBairro());
+
+			pstm.executeUpdate();
+
+			ResultSet rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				final int lastId = rs.getInt(1);
+				aluno.setId_aluno(lastId);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public static void update(Aluno aluno) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String update = "UPDATE aluno SET nome = ?, email = ?, celular = ?, cpf = ?, estado = ?, cidade = ?, bairro = ? WHERE id_aluno = ? ";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(update);
+
+			pstm.setString(1, aluno.getNome());
+			pstm.setString(2, aluno.getEmail());
+			pstm.setString(3, aluno.getCelular());
+			pstm.setString(4, aluno.getCpf());
+			pstm.setString(5, aluno.getEstado());
+			pstm.setString(6, aluno.getCidade());
+			pstm.setString(7, aluno.getBairro());
+			pstm.setInt(8, aluno.getId_aluno());
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public static void deleteById(int id) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String delete = "DELETE FROM aluno WHERE id_aluno = ?";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+	}
+
+	public static List<Aluno> getAlunos() {
+		List<Aluno> alunos = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String select = "SELECT * FROM aluno";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(select);
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				Aluno aluno = new Aluno();
+
+				aluno.setId_aluno(rs.getInt("id_aluno"));
+				aluno.setNome(rs.getString("nome"));
+				aluno.setEmail(rs.getString("email"));
+				aluno.setCelular(rs.getString("celular"));
+				aluno.setCpf(rs.getString("cpf"));
+				aluno.setEstado(rs.getString("estado"));
+				aluno.setCidade(rs.getString("cidade"));
+				aluno.setBairro(rs.getString("bairro"));
+
+				alunos.add(aluno);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+		return alunos;
+	}
+}

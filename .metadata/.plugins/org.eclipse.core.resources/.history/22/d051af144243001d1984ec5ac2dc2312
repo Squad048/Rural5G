@@ -1,0 +1,159 @@
+package com.rural5g.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rural5g.factory.ConnectionFactory;
+import com.rural5g.model.Doador_pj;
+
+public class Doador_pjDAO {
+	public static void insert(Doador_pj doador_pj) {
+
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String insert = "INSERT INTO doador_pj(nome,email,celular,cnpj) VALUES (?,?,?,?);";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(insert);
+
+			pstm.setString(1, doador_pj.getNome());
+			pstm.setString(2, doador_pj.getEmail());
+			pstm.setString(3, doador_pj.getCelular());
+			pstm.setString(4, doador_pj.getCnpj());
+
+			pstm.executeUpdate();
+
+			ResultSet rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				final int lastId = rs.getInt(1);
+				doador_pj.setId_doador(lastId);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public static void update(Doador_pj doador_pj) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String update = "UPDATE doador_pj SET nome = ?, email = ?, celular = ?, cnpj = ? WHERE id_doador_pj = ?";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(update);
+
+			pstm.setString(1, doador_pj.getNome());
+			pstm.setString(2, doador_pj.getEmail());
+			pstm.setString(3, doador_pj.getCelular());
+			pstm.setString(4, doador_pj.getCnpj());
+			pstm.setInt(5, doador_pj.getId_doador());
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public static void deleteById(int id) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String delete = "DELETE FROM doador_pj WHERE id_doador_pj = ?";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+	}
+
+	public static List<Doador_pj> getDoadores_pj() {
+		List<Doador_pj> doadores_pj = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String select = "SELECT * FROM doador_pj";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(select);
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				Doador_pj doador_pj = new Doador_pj();
+
+				doador_pj.setId_doador(rs.getInt("id_doador_pj"));
+				doador_pj.setNome(rs.getString("nome"));
+				doador_pj.setEmail(rs.getString("email"));
+				doador_pj.setCelular(rs.getString("celular"));
+				doador_pj.setCnpj(rs.getString("cnpj"));
+
+				doadores_pj.add(doador_pj);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+		return doadores_pj;
+	}
+
+}

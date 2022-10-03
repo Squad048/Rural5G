@@ -1,0 +1,170 @@
+package com.rural5g.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rural5g.factory.ConnectionFactory;
+import com.rural5g.model.Voluntario;
+
+public class VoluntarioDAO {
+	public static void insert(Voluntario voluntario) {
+
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String insert = "INSERT INTO voluntario(nome,email,celular,cpf,estado,cidade,bairro,formacao) VALUES (?,?,?,?,?,?,?,?);";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(insert);
+
+			pstm.setString(1, voluntario.getNome());
+			pstm.setString(2, voluntario.getEmail());
+			pstm.setString(3, voluntario.getCelular());
+			pstm.setString(4, voluntario.getCpf());
+			pstm.setString(5, voluntario.getEstado());
+			pstm.setString(6, voluntario.getCidade());
+			pstm.setString(7, voluntario.getBairro());
+			pstm.setString(8, voluntario.getFormacao());
+
+			pstm.executeUpdate();
+
+			ResultSet rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				final int lastId = rs.getInt(1);
+				voluntario.setId_voluntario(lastId);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public static void update(Voluntario voluntario) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String update = "UPDATE voluntario SET nome = ?, email = ?, celular = ?, cpf = ?, estado = ?, cidade = ?, bairro = ?, formacao = ? WHERE id_voluntario = ? ";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(update);
+
+			pstm.setString(1, voluntario.getNome());
+			pstm.setString(2, voluntario.getEmail());
+			pstm.setString(3, voluntario.getCelular());
+			pstm.setString(4, voluntario.getCpf());
+			pstm.setString(5, voluntario.getEstado());
+			pstm.setString(6, voluntario.getCidade());
+			pstm.setString(7, voluntario.getBairro());
+			pstm.setString(8, voluntario.getFormacao());
+			pstm.setInt(9, voluntario.getId_voluntario());
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public static void deleteById(int id) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String delete = "DELETE FROM voluntario WHERE id_voluntario = ?";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+	}
+
+	public static List<Voluntario> getVoluntarios() {
+		List<Voluntario> voluntarios = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String select = "SELECT * FROM voluntario";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(select);
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				Voluntario voluntario = new Voluntario();
+				
+				voluntario.setId_voluntario(rs.getInt("id_voluntario"));
+				voluntario.setNome(rs.getString("nome"));
+				voluntario.setEmail(rs.getString("email"));
+				voluntario.setCelular(rs.getString("celular"));
+				voluntario.setCpf(rs.getString("cpf"));
+				voluntario.setEstado(rs.getString("estado"));
+				voluntario.setCidade(rs.getString("cidade"));
+				voluntario.setBairro(rs.getString("bairro"));
+				voluntario.setFormacao(rs.getString("formacao"));
+
+				voluntarios.add(voluntario);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+		return voluntarios;
+	}
+}

@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ page import="com.rural5g.model.Aluno"%>
+<%@ page import="com.rural5g.dao.AlunoDAO"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Aluno | Rural 5G</title>
+<link rel="stylesheet" href="../novomenu.css">
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="../assets/css/style.css">
+
+</head>
+<body>
+	<header>
+		<!--Sessão Menu Principal-->
+		<div id="menu-principal">
+			<h1>
+				<nav class="dp-menu">
+
+					<ul>
+
+						<li><a href="index.html">Home</a></li>
+
+						<li><a href="#">Colaboradores</a>
+							<ul>
+								<li><a href="voluntarios.html">Voluntários</a></li>
+								<li><a href="doacao.html">Doação</a></li>
+								<li><a href="cadastrarescola.html">Cadastrar minha
+										escola</a></li>
+
+							</ul></li>
+						<li><a href="sobre.html">O projeto</a></li>
+						<li><a href="contato.html">Contato</a></li>
+						<li><a href="./login.html" id="botao-login"
+							class="btn btn-success sistema">Login</a></li>
+
+					</ul>
+				</nav>
+			</h1>
+			</nav>
+		</div>
+
+		<!--Fim Menu Principal-->
+	</header>
+	<section class="container p-5">
+		<div class="d-flex flex-row-reverse">
+			<button class="btn btn-danger" data-toggle="modal"
+				data-target="#modalCreate">Cadastrar Aluno</button>
+		</div>
+		<h1 class="text-center">ALUNOS:</h1>
+		<table class="table table-bordered table-hover table-danger p-5">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nome</th>
+					<th>CPF</th>
+					<th>Celular</th>
+					<th>Email</th>
+					<th>Estado</th>
+					<th>Cidade</th>
+					<th>Bairro</th>
+					<th>Opções</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for (Aluno aluno : AlunoDAO.getAlunos()) {
+				%>
+				<tr>
+					<td><%=aluno.getId_aluno()%></td>
+					<td><%=aluno.getNome()%></td>
+					<td><%=aluno.getCpf()%></td>
+					<td><%=aluno.getCelular()%></td>
+					<td><%=aluno.getEmail()%></td>
+					<td><%=aluno.getEstado()%></td>
+					<td><%=aluno.getCidade()%></td>
+					<td><%=aluno.getBairro()%></td>
+					<td><button type="button" class="btn btn-danger"
+							data-toggle="modal" data-target="#modalUpdate">Editar</button>
+						<button href="#" class="btn btn-warning" data-toggle="modal"
+							data-target="#modalDelete">Excluir</button></td>
+
+				</tr>
+				<%
+				}
+				%>
+			</tbody>
+		</table>
+	</section>
+
+	<footer class="fixed-bottom">
+		<div class="rodape">
+			<p>© SQUAD 48 - RECODE PRO, 2022.</p>
+		</div>
+	</footer>
+</body>
+</html>

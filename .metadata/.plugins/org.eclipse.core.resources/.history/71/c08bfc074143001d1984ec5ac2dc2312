@@ -1,0 +1,95 @@
+package com.rural5g.controllers;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.rural5g.dao.DoacaoDAO;
+import com.rural5g.model.Doador_pj;
+
+/**
+ * Servlet implementation class ControllerDoador_pj
+ */
+@WebServlet(urlPatterns = { "/ControllerDoador_pj", "/tabelas/doador_pj/create", "/tabelas/doador_pj/update",
+		"/tabelas/doador_pj/delete" })
+public class ControllerDoador_pj extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	
+	Doador_pj doador = new Doador_pj();
+	public ControllerDoador_pj() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String action = request.getServletPath();
+
+		if (action.equalsIgnoreCase("/tabelas/doador_pj/create")) {
+			createDoador_pj(request, response);
+		} else if (action.equalsIgnoreCase("/tabelas/doador_pj/update")) {
+			updateDoador_pj(request, response);
+		} else if (action.equalsIgnoreCase("/tabelas/doador_pj/delete")) {
+			deleteDoador_pj(request, response);
+		}
+		doGet(request, response);
+	}
+
+	protected void createDoador_pj(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doador.setNome(request.getParameter("nome"));
+		doador.setEmail(request.getParameter("email"));
+		doador.setCelular(request.getParameter("celular"));
+		doador.setCnpj(request.getParameter("cpf"));
+
+		Doador_pjDAO.insert(doador);
+
+		response.sendRedirect("Doacao.jsp");
+
+	}
+
+	protected void updateDoador_pj(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doacao.setNome(request.getParameter("nome"));
+		doacao.setId_escola(Integer.parseInt(request.getParameter("id_escola")));
+		doacao.setId_doador(Integer.parseInt(request.getParameter("id_doador")));
+		doacao.setEntidade_doador(request.getParameter("entidade_doador"));
+
+		DoacaoDAO.update(doacao);
+
+		response.sendRedirect("Doacao.jsp");
+
+	}
+
+	protected void deleteDoador_pj(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		DoacaoDAO.deleteById(Integer.parseInt(request.getParameter("id_doacao")));
+
+		response.sendRedirect("Doacao.jsp");
+
+	}
+
+}

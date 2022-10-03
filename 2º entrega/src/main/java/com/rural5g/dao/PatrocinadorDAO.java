@@ -1,0 +1,168 @@
+package com.rural5g.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rural5g.factory.ConnectionFactory;
+import com.rural5g.model.Patrocinador;
+
+public class PatrocinadorDAO {
+	public static void insert(Patrocinador patrocinador) {
+
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String insert = "INSERT INTO patrocinador(nome,email,celular,cpf,estado,cidade,bairro) VALUES (?,?,?,?,?,?,?);";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+
+			pstm.setString(1, patrocinador.getNome());
+			pstm.setString(2, patrocinador.getEmail());
+			pstm.setString(3, patrocinador.getCelular());
+			pstm.setString(4, patrocinador.getCpf());
+			pstm.setString(5, patrocinador.getEstado());
+			pstm.setString(6, patrocinador.getCidade());
+			pstm.setString(7, patrocinador.getBairro());
+
+			pstm.executeUpdate();
+
+			ResultSet rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				final int lastId = rs.getInt(1);
+				patrocinador.setId_patrocinador(lastId);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public static void update(Patrocinador patrocinador) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String update = "UPDATE patrocinador SET nome = ?, email = ?, celular = ?, cpf = ?, estado = ?, cidade = ?, bairro = ? WHERE id_patrocinador = ? ";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(update);
+
+			pstm.setString(1, patrocinador.getNome());
+			pstm.setString(2, patrocinador.getEmail());
+			pstm.setString(3, patrocinador.getCelular());
+			pstm.setString(4, patrocinador.getCpf());
+			pstm.setString(5, patrocinador.getEstado());
+			pstm.setString(6, patrocinador.getCidade());
+			pstm.setString(7, patrocinador.getBairro());
+			pstm.setInt(8, patrocinador.getId_patrocinador());
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public static void deleteById(int id) {
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String delete = "DELETE FROM patrocinador WHERE id_patrocinador = ?";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+	}
+
+	public static List<Patrocinador> getPatrocinadores() {
+		List<Patrocinador> patrocinadores = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstm = null;
+		String select = "SELECT * FROM patrocinador";
+
+		try {
+			con = ConnectionFactory.getConnection();
+			pstm = con.prepareStatement(select);
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				Patrocinador patrocinador = new Patrocinador();
+				
+				patrocinador.setId_patrocinador(rs.getInt("id_patrocinador"));
+				patrocinador.setNome(rs.getString("nome"));
+				patrocinador.setEmail(rs.getString("email"));
+				patrocinador.setCelular(rs.getString("celular"));
+				patrocinador.setCpf(rs.getString("cpf"));
+				patrocinador.setEstado(rs.getString("estado"));
+				patrocinador.setCidade(rs.getString("cidade"));
+				patrocinador.setBairro(rs.getString("bairro"));
+
+				patrocinadores.add(patrocinador);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+		return patrocinadores;
+	}
+}

@@ -1,0 +1,88 @@
+package com.rural5g.controllers;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.rural5g.dao.AlunoDAO;
+import com.rural5g.model.Aluno;
+
+/**
+ * Servlet implementation class ControllerAluno
+ */
+@WebServlet(urlPatterns = { "/ControllerAluno", "/cadastroAluno", "/tabelas/create", "/tabelas/update", "/tabelas/delete" })
+public class ControllerAluno extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	Aluno aluno = new Aluno();
+
+	public ControllerAluno() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String action = request.getServletPath();
+		if (action.equalsIgnoreCase("/cadastroAluno")) {
+			createAluno(request, response);
+		}else if (action.equalsIgnoreCase("/tabelas/create")) {
+			createAluno(request, response);
+		}
+//		doGet(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	protected void createAluno(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		aluno.setNome(request.getParameter("nome"));
+		aluno.setEmail(request.getParameter("email"));
+		aluno.setCpf(request.getParameter("cpf"));
+		aluno.setEstado(request.getParameter("estado"));
+		aluno.setCidade(request.getParameter("cidade"));
+		aluno.setBairro(request.getParameter("bairro"));
+		aluno.setCelular(request.getParameter("celular"));
+
+		AlunoDAO.insert(aluno);
+
+		response.sendRedirect("/tabelas/Aluno.jsp");
+
+	}
+}

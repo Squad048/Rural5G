@@ -1,0 +1,19 @@
+INDEX VERSION 1.4+C:\Users\bossg\OneDrive\Documentos\Rural5G\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2397702876.index
+3803802307.index
+2762845695.index
+689439306.index
+2460436748.index
+537252271.index
+1004824188.index
+3336481003.index
+3659691984.index
+2454611087.index
+2397702876.index
+3549707259.index
+373341201.index
+779782557.index
+3315368098.index
+1001910644.index
+767655840.index
+3071634042.index
